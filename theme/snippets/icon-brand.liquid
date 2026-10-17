@@ -1,0 +1,83 @@
+{%- comment -%}
+  Renders a small inline-SVG icon for brand marketing sections (trust badges,
+  feature cards). Lucide-style outline icons so they match Dawn's existing
+  icon set visually.
+  Accepts: name (string), size (number, px, default 28)
+{%- endcomment -%}
+{%- liquid
+  assign icon_size = size | default: 28
+-%}
+<svg
+  class="icon-brand icon-brand--{{ name }}"
+  width="{{ icon_size }}"
+  height="{{ icon_size }}"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {%- case name -%}
+    {%- when 'map-pin' -%}
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+      <circle cx="12" cy="10" r="3" />
+    {%- when 'package' -%}
+      <path d="M16 10a4 4 0 0 1-8 0" />
+      <path d="M3.103 6.034h17.794" />
+      <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" />
+    {%- when 'truck' -%}
+      <path d="M14 18V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h1" />
+      <path d="M14 9h4l3 3v5a1 1 0 0 1-1 1h-1" />
+      <circle cx="7.5" cy="18.5" r="2" />
+      <circle cx="17.5" cy="18.5" r="2" />
+    {%- when 'shield-check' -%}
+      <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
+      <path d="m9 12 2 2 4-4" />
+    {%- when 'wheat' -%}
+      <path d="M12 22V2" />
+      <path d="M8 6c0 2-2 2-2 4s2 2 2 4-2 2-2 4" />
+      <path d="M16 6c0 2 2 2 2 4s-2 2-2 4 2 2 2 4" />
+      <path d="M12 8c1.5 0 3-1 3-2.5S13.5 3 12 3 9 4 9 5.5 10.5 8 12 8Z" />
+    {%- when 'heart' -%}
+      <path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 12 5a5.5 5.5 0 0 0-10 3.5c0 2.3 1.5 4 3 5.5l7 7Z" />
+    {%- when 'ban' -%}
+      <circle cx="12" cy="12" r="9" />
+      <path d="m5.5 5.5 13 13" />
+    {%- when 'calendar' -%}
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M16 3v4M8 3v4M3 10h18" />
+    {%- when 'leaf' -%}
+      <path d="M11 20A7 7 0 0 1 4 13c0-6 5-11 15-11 0 10-5 15-11 15-1 0-2-.2-3-.5" />
+      <path d="M4 21c3-3 6-5 10-8" />
+    {%- when 'star' -%}
+      <path
+        d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z"
+        fill="currentColor"
+        stroke="none"
+      />
+    {%- when 'mail' -%}
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m2 6 10 7 10-7" />
+    {%- when 'sparkle' -%}
+      <path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8" />
+    {%- when 'clock' -%}
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 3" />
+    {%- when 'check' -%}
+      <path d="m5 12 4 4L19 6" />
+    {%- when 'phone' -%}
+      <path d="M14.05 2a9 9 0 0 1 8 7.94M14.05 6A5 5 0 0 1 18 10m-3.5 4.5c-1 1-1 2-2.2 1.3a11.7 11.7 0 0 1-3.6-3.6C7.7 11 8.7 11 9.7 10a1.6 1.6 0 0 0 .4-1.8L9 6a1.7 1.7 0 0 0-1.9-1H5a2 2 0 0 0-2 2.2 16 16 0 0 0 14 14A2 2 0 0 0 19 19v-2.1a1.7 1.7 0 0 0-1-1.6l-2.2-1.1a1.7 1.7 0 0 0-1.75.3Z" />
+    {%- when 'scoop' -%}
+      <path d="M3 10.5h11a5.5 5.5 0 0 1-5.5 5.5H8.5A5.5 5.5 0 0 1 3 10.5Z" />
+      <path d="M14 10.5c.75-2 2.5-3.25 4.75-3.25H21" />
+      <path d="M21 5.75v3" />
+      <circle cx="6.25" cy="8" r="1.1" />
+      <circle cx="9.5" cy="6.25" r="1.3" />
+      <circle cx="12.5" cy="8.25" r="0.95" />
+    {%- else -%}
+      <circle cx="12" cy="12" r="9" />
+  {%- endcase -%}
+</svg>

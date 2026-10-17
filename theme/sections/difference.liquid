@@ -1,0 +1,159 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="brand-difference__intro">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="brand-hero__eyebrow brand-script">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="brand-difference__grid{% if section.blocks.size == 5 %} brand-difference__grid--5{% endif %}">
+      {%- for block in section.blocks -%}
+        <div class="brand-feature-card" {{ block.shopify_attributes }}>
+          <span class="brand-feature-card__icon">
+            {%- render 'icon-brand', name: block.settings.icon, size: 26 -%}
+          </span>
+          <p class="brand-feature-card__title">{{ block.settings.title }}</p>
+          {%- if block.settings.subtitle != blank -%}
+            <p class="brand-feature-card__subtitle">{{ block.settings.subtitle }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Difference",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Script accent text",
+      "default": "No shortcuts, no filler"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Difference Is In the Batch."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" },
+        { "value": "h0", "label": "Extra large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Body text",
+      "default": "<p>Real ingredients. Genuinely soft — not the jaw-breaking stuff. Zero preservatives. Baked fresh every week, in batches small enough that we still taste-test every one.</p>"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "wheat", "label": "Wheat" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "ban", "label": "Ban / No" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield-check", "label": "Shield check" }
+          ],
+          "default": "wheat"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Real Ingredients"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Nothing you can't pronounce"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Difference",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "wheat", "title": "Real Ingredients", "subtitle": "Nothing you can't pronounce" } },
+        { "type": "feature", "settings": { "icon": "heart", "title": "Actually Soft", "subtitle": "Not rock-hard granola" } },
+        { "type": "feature", "settings": { "icon": "ban", "title": "Zero Preservatives", "subtitle": "Nothing artificial" } },
+        { "type": "feature", "settings": { "icon": "calendar", "title": "Baked Weekly", "subtitle": "Never sits on a shelf" } },
+        { "type": "feature", "settings": { "icon": "leaf", "title": "Sugar-Free Option", "subtitle": "Sweetened naturally with monk fruit" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

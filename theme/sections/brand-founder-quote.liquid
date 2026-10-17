@@ -1,0 +1,143 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="brand-founder">
+      <div class="brand-founder__media">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 800
+            | image_tag: loading: 'lazy', widths: '300, 450, 600, 800', sizes: '(min-width: 990px) 28vw, 60vw'
+          }}
+        {%- else -%}
+          {%- liquid
+            case section.settings.fallback_image
+              when 'hero-granola.jpg'
+                assign fallback_width = 1920
+                assign fallback_height = 1440
+              when 'texture-oat.jpg'
+                assign fallback_width = 1600
+                assign fallback_height = 800
+              else
+                assign fallback_width = 900
+                assign fallback_height = 900
+            endcase
+          -%}
+          <img
+            src="{{ section.settings.fallback_image | asset_url }}"
+            alt=""
+            loading="lazy"
+            width="{{ fallback_width }}"
+            height="{{ fallback_height }}"
+          >
+        {%- endif -%}
+      </div>
+      <div class="brand-founder__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="brand-hero__eyebrow brand-script">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.quote != blank -%}
+          <blockquote class="brand-founder__quote">{{ section.settings.quote }}</blockquote>
+        {%- endif -%}
+        {%- if section.settings.citation != blank -%}
+          <p class="brand-founder__citation">{{ section.settings.citation | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Founder quote",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "fallback_image",
+      "label": "Fallback image (used only if no image is picked above)",
+      "options": [
+        { "value": "hero-granola.jpg", "label": "Hero granola" },
+        { "value": "granola-birthday-cake.jpg", "label": "Birthday cake" },
+        { "value": "granola-apple.jpg", "label": "Apple" },
+        { "value": "granola-original.jpg", "label": "Original" },
+        { "value": "granola-trail.jpg", "label": "Trail" },
+        { "value": "texture-oat.jpg", "label": "Oat texture" }
+      ],
+      "default": "granola-apple.jpg"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Script accent text",
+      "default": "A note from Gina"
+    },
+    {
+      "type": "richtext",
+      "id": "quote",
+      "label": "Quote",
+      "default": "<p>I wanted a granola I wasn't afraid to let my own kids eat by the handful. If it isn't something I'd bake in my own kitchen, it doesn't go in the bag.</p>"
+    },
+    {
+      "type": "text",
+      "id": "citation",
+      "label": "Citation",
+      "default": "Gina — Founder, Crunchy Girl Granola"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "Founder quote"
+    }
+  ]
+}
+{% endschema %}

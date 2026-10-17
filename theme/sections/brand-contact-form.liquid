@@ -1,0 +1,189 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="brand-contact-form">
+      <div class="brand-contact-form__text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="brand-hero__eyebrow brand-script">
+            {%- if product != blank and section.settings.use_product_title -%}
+              Questions about {{ product.title | escape }}?
+            {%- else -%}
+              {{ section.settings.eyebrow }}
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="h1">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="brand-contact-form__subtext rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.contact_email != blank -%}
+          <a class="brand-contact-form__email" href="mailto:{{ section.settings.contact_email | escape }}">
+            {%- render 'icon-brand', name: 'mail', size: 20 -%}
+            {{ section.settings.contact_email | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="brand-contact-form__fields">
+        {%- form 'contact', class: 'brand-contact-form__form-el' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="brand-contact-form__message brand-contact-form__message--success" tabindex="-1" autofocus>
+              {{ section.settings.success_message | default: 'Thanks — your message has been sent.' }}
+            </p>
+          {%- else -%}
+            {%- if form.errors -%}
+              <div class="brand-contact-form__message" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="brand-contact-form__row">
+              <div class="brand-contact-form__field">
+                <label for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+                <input
+                  type="text"
+                  id="ContactForm-name"
+                  class="brand-contact-form__input"
+                  name="contact[{{ 'templates.contact.form.name' | t }}]"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                  autocomplete="name"
+                >
+              </div>
+              <div class="brand-contact-form__field">
+                <label for="ContactForm-email">{{ 'templates.contact.form.email' | t }}*</label>
+                <input
+                  type="email"
+                  id="ContactForm-email"
+                  class="brand-contact-form__input"
+                  name="contact[email]"
+                  spellcheck="false"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                  aria-required="true"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="brand-contact-form__field">
+              <label for="ContactForm-message">{{ 'templates.contact.form.comment' | t }}</label>
+              <textarea
+                rows="6"
+                id="ContactForm-message"
+                class="brand-contact-form__input brand-contact-form__input--textarea"
+                name="contact[body]"
+              >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+            </div>
+
+            <button type="submit" class="button button--primary brand-contact-form__submit">
+              {{ section.settings.button_label | default: 'Send message' }}
+            </button>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact form",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Script accent text",
+      "default": "Say hey"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_title",
+      "label": "Use product title in accent text",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Send us a message."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Questions about an order, a flavor request, or just want to say hi — we read every note.</p>"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "gina@crunchygirlgranola.com"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Send message"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thanks — your message has been sent."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact form"
+    }
+  ]
+}
+{% endschema %}

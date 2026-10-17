@@ -1,0 +1,30 @@
+{%- comment -%}
+  Floating "Shop the Granola" button — hidden until the visitor scrolls past
+  roughly the first two homepage sections (hero + trust badges), then fixed
+  at the bottom-center of the viewport.
+{%- endcomment -%}
+<a href="{{ routes.all_products_collection_url }}" class="button button--primary sticky-shop-cta" id="StickyShopCta">
+  {%- render 'icon-brand', name: 'package', size: 16 -%}
+  Shop the Granola
+</a>
+
+<script>
+  (function () {
+    var cta = document.getElementById('StickyShopCta');
+    if (!cta) return;
+
+    var visible = false;
+    var threshold = window.innerHeight * 1.4;
+
+    function onScroll() {
+      var shouldShow = window.scrollY > threshold;
+      if (shouldShow !== visible) {
+        visible = shouldShow;
+        cta.classList.toggle('sticky-shop-cta--visible', visible);
+      }
+    }
+
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>

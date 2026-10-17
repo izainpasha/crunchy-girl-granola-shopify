@@ -1,0 +1,76 @@
+{
+  "sections": {
+    "hero": {
+      "type": "brand-page-hero",
+      "settings": {
+        "height": "medium",
+        "fallback_image": "granola-original.jpg",
+        "eyebrow": "Say hey",
+        "heading": "We'd love to hear from you.",
+        "text": ""
+      }
+    },
+    "details": {
+      "type": "brand-contact-details",
+      "blocks": {
+        "email": {
+          "type": "detail",
+          "settings": {
+            "icon": "mail",
+            "heading": "Write to us",
+            "primary": "gina@crunchygirlgranola.com",
+            "secondary": "We reply within 2 business days",
+            "link": "mailto:gina@crunchygirlgranola.com"
+          }
+        },
+        "location": {
+          "type": "detail",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "The shop",
+            "primary": "3520 Bluebonnet Circle",
+            "secondary": "Fort Worth, TX",
+            "link": "https://www.google.com/maps/search/?api=1&query=3520+Bluebonnet+Circle+Fort+Worth+TX"
+          }
+        },
+        "hours": {
+          "type": "detail",
+          "settings": {
+            "icon": "clock",
+            "heading": "Hours",
+            "primary": "Tues - Sat",
+            "secondary": "10am - 3pm"
+          }
+        }
+      },
+      "block_order": [
+        "email",
+        "location",
+        "hours"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "form": {
+      "type": "brand-contact-form",
+      "settings": {
+        "eyebrow": "Say hey",
+        "heading": "Send us a message.",
+        "text": "<p>Questions about an order, a flavor request, or just want to say hi — we read every note.</p>",
+        "button_label": "Send message",
+        "success_message": "Thanks — your message has been sent.",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "details",
+    "form"
+  ]
+}

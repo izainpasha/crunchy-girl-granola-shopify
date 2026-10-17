@@ -1,0 +1,154 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "brand-product",
+      "settings": {
+        "back_label": "Back to all flavors",
+        "eyebrow": "Small-batch flavor",
+        "show_product_tag": true,
+        "secondary_button_label": "See other flavors",
+        "mixins_helper": "+$2 each · add as many as you like",
+        "one_time_description": "Ships once",
+        "subscription_description": "Fresh batch every month · cancel anytime",
+        "show_quantity_selector": false,
+        "detail_one": "Made with real ingredients",
+        "detail_two": "Ships within 24 hours",
+        "color_scheme": "scheme-1",
+        "media_size": "large",
+        "media_fit": "contain",
+        "constrain_to_viewport": true,
+        "enable_sticky_info": true,
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "gallery_layout": "thumbnail",
+        "mobile_thumbnails": "hide",
+        "image_zoom": "lightbox",
+        "picker_type": "button",
+        "swatch_shape": "circle",
+        "show_dynamic_checkout": false,
+        "padding_top": 28,
+        "padding_bottom": 72
+      }
+    },
+    "size-comparison": {
+      "type": "brand-size-comparison",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "story": {
+      "type": "brand-product-story",
+      "settings": {
+        "ingredients_eyebrow": "What's in the bag",
+        "ingredients_heading": "Real, honest ingredients.",
+        "ingredients": "Rolled oats, Honey, Pecans, Walnuts, Sea salt",
+        "pairing_eyebrow": "How to eat it",
+        "pairing_heading": "Perfect pairings.",
+        "pairing_text": "Cold milk, vanilla yogurt, or straight out of the bag at 3pm.",
+        "shipping_text": "Ships nationwide via USPS within 24 hours of ordering — arrives in 2–3 days.",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "I bought one bag and immediately ordered three more. The clusters are UNREAL.",
+            "name": "Hannah M.",
+            "location": "Fort Worth, TX"
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Birthday Cake tastes like a party in a jar. My nut-free kiddo is obsessed.",
+            "name": "Sarah P.",
+            "location": "Dallas, TX"
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Finally a sugar-free granola that doesn't taste like cardboard. Apple is my favorite.",
+            "name": "Jess R.",
+            "location": "Austin, TX"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial-1",
+        "testimonial-2",
+        "testimonial-3"
+      ],
+      "settings": {
+        "rating_text": "4.9 · What the granola gurus are saying",
+        "heading_line_1": "Real reviews from",
+        "heading_line_2": "real granola people.",
+        "heading_size": "h1",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
+    "1786468852be78510f": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "contact": {
+      "type": "brand-contact-form",
+      "settings": {
+        "eyebrow": "Questions about this flavor?",
+        "use_product_title": true,
+        "heading": "We'd love to hear from you.",
+        "text": "<p>Allergen questions, bulk orders, wholesale, or just want to say hi — drop a note and we'll get back to you personally within a day or two.</p>",
+        "contact_email": "gina@crunchygirlgranola.com",
+        "button_label": "Send message",
+        "success_message": "Thanks — your message has been sent.",
+        "color_scheme": "scheme-2",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "Try another flavor.",
+        "heading_size": "h1",
+        "products_to_show": 3,
+        "columns_desktop": 3,
+        "columns_mobile": "1",
+        "color_scheme": "scheme-1",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": [
+    "main",
+    "size-comparison",
+    "story",
+    "testimonials",
+    "1786468852be78510f",
+    "contact",
+    "related-products"
+  ]
+}

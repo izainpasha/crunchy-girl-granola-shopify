@@ -1,0 +1,69 @@
+{%- comment -%}
+  Renders the "Go Crunchy" email signup form (real `{% form 'customer' %}`).
+  Shared between the homepage hero and the About page closing section so
+  both use the exact same markup, styling hooks, and success/error handling.
+
+  Accepts:
+  - eyebrow: {String}
+  - eyebrow_icon: {String} icon-brand name shown before the eyebrow text
+  - eyebrow_image: {String} theme asset filename shown before the eyebrow text
+  - placeholder: {String}
+  - button_label: {String}
+  - microcopy: {String}
+  - id_prefix: {String} unique id prefix so multiple instances on one page don't collide
+{%- endcomment -%}
+<div class="brand-hero__signup">
+  {%- if eyebrow != blank -%}
+    <p class="brand-hero__signup-label{% if eyebrow_image != blank %} brand-hero__signup-label--artwork{% endif %}">
+      {%- if eyebrow_image != blank -%}
+        <img
+          class="brand-hero__signup-artwork"
+          src="{{ eyebrow_image | asset_url }}"
+          alt=""
+          width="309"
+          height="380"
+          loading="eager"
+        >
+      {%- elsif eyebrow_icon != blank -%}
+        {%- render 'icon-brand', name: eyebrow_icon, size: 16 -%}
+      {%- endif -%}
+      {{ eyebrow }}
+    </p>
+  {%- endif -%}
+  {%- form 'customer', class: 'brand-hero__signup-form' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <div class="brand-hero__signup-field">
+      <label class="visually-hidden" for="{{ id_prefix }}-EmailSignup">
+        {{ placeholder }}
+      </label>
+      <input
+        id="{{ id_prefix }}-EmailSignup"
+        type="email"
+        name="contact[email]"
+        class="brand-hero__signup-input"
+        value="{{ form.email }}"
+        placeholder="{{ placeholder }}"
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="email"
+        required
+      >
+      <button type="submit" class="button button--primary brand-hero__signup-button">
+        {{ button_label }}
+      </button>
+    </div>
+    {%- if form.errors -%}
+      <small class="brand-hero__signup-message">
+        {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+      </small>
+    {%- endif -%}
+    {%- if form.posted_successfully? -%}
+      <p class="brand-hero__signup-message brand-hero__signup-message--success" tabindex="-1" autofocus>
+        {{ 'newsletter.success' | t }}
+      </p>
+    {%- endif -%}
+  {%- endform -%}
+  {%- if microcopy != blank -%}
+    <p class="brand-hero__signup-microcopy">{{ microcopy }}</p>
+  {%- endif -%}
+</div>

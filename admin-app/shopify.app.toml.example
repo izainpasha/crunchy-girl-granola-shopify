@@ -1,0 +1,12 @@
+# Shopify CLI will create shopify.app.toml when this project is linked.
+# Keep the generated client_id; use the access scopes below.
+client_id = "replace-with-dev-dashboard-client-id"
+name = "Crunchy Girl Admin"
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = false
+
+[access_scopes]
+scopes = "read_products,write_products,read_publications,write_publications,read_purchase_options,write_purchase_options"
+
+[auth]
+redirect_urls = []

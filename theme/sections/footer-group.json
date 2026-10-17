@@ -1,0 +1,54 @@
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "footer-brand": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": true
+          }
+        },
+        "footer-shop": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Shop",
+            "menu": "footer"
+          }
+        },
+        "footer-sayhey": {
+          "type": "contact_info",
+          "settings": {
+            "heading": "Say Hey",
+            "line_1_icon": "map-pin",
+            "line_1_text": "3520 Bluebonnet Circle, Fort Worth, TX",
+            "line_2_icon": "mail",
+            "line_2_text": "gina@crunchygirlgranola.com",
+            "line_3_icon": "heart",
+            "line_3_text": "Made in small batches, every week."
+          }
+        }
+      },
+      "block_order": ["footer-brand", "footer-shop", "footer-sayhey"],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": false,
+        "newsletter_heading": "Get 10% off your first bag",
+        "enable_follow_on_shop": false,
+        "show_social": false,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 60,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

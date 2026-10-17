@@ -1,0 +1,21 @@
+{%- comment -%}
+  Outputs the cart count for the header bubble, counting a granola bundle as
+  its granola only: mix-ins nested under a granola that is still in the cart
+  (same hidden _bundle_id) are not counted separately.
+  Usage: {%- capture count -%}{%- render 'brand-cart-count' -%}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign bundled_quantity = 0
+  for item in cart.items
+    assign child_bundle_id = item.properties['_bundle_id']
+    if child_bundle_id != blank and item.properties['_Mix-in for'] != blank
+      for other in cart.items
+        if other.properties['_bundle_id'] == child_bundle_id and other.properties['_Mix-in for'] == blank
+          assign bundled_quantity = bundled_quantity | plus: item.quantity
+          break
+        endif
+      endfor
+    endif
+  endfor
+  echo cart.item_count | minus: bundled_quantity
+-%}

@@ -1,0 +1,24 @@
+{%- comment -%}
+  Lists the mix-ins that were added together with a granola line (they share
+  the hidden `_bundle_id` line property set in product-form.js), nested under
+  that granola in the cart drawer and cart page.
+
+  Accepts:
+  - parent: {Object} the granola cart line item
+{%- endcomment -%}
+{%- assign parent_bundle_id = parent.properties['_bundle_id'] -%}
+{%- if parent_bundle_id != blank -%}
+  <ul class="brand-cart-bundle list-unstyled" role="list" aria-label="Mix-ins">
+    {%- for child in cart.items -%}
+      {%- if child.properties['_bundle_id'] == parent_bundle_id and child.properties['_Mix-in for'] != blank -%}
+        <li class="brand-cart-bundle__item">
+          <span class="brand-cart-bundle__name">+ {{ child.product.title | escape }}</span>
+          <span class="brand-cart-bundle__price">{{ child.final_price | money }}</span>
+          {%- if child.selling_plan_allocation != null -%}
+            <span class="brand-cart-bundle__plan">{{ child.selling_plan_allocation.selling_plan.name }}</span>
+          {%- endif -%}
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

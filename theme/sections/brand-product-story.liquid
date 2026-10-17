@@ -1,0 +1,153 @@
+{%- liquid
+  assign ingredients_metafield = product.metafields.custom.ingredients
+  assign pairing_metafield = product.metafields.custom.pairings
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="brand-product-story section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="brand-product-story__grid">
+      {%- comment -%}
+        When the product has an ingredients list metafield, brand-product.liquid
+        already shows it in the mobile "Ingredients" row, so this copy is hidden
+        on mobile only (desktop unchanged).
+      {%- endcomment -%}
+      <div class="brand-product-story__ingredients-col{% if ingredients_metafield.type contains 'list.' and ingredients_metafield.value != blank %} brand-product-story__ingredients-col--in-product-info{% endif %}">
+        <p class="brand-product-story__eyebrow">{{ section.settings.ingredients_eyebrow | escape }}</p>
+        <h2>{{ section.settings.ingredients_heading | escape }}</h2>
+        <ul class="brand-product-story__ingredients">
+          {%- if ingredients_metafield.type contains 'list.' and ingredients_metafield.value != blank -%}
+            {%- for ingredient in ingredients_metafield.value -%}
+              <li>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 22 16 8"></path><path d="M7 17c-3-3-3-6 0-9 3 3 3 6 0 9Z"></path><path d="M11 13c-3-3-3-6 0-9 3 3 3 6 0 9Z"></path><path d="M15 9c0-4 2-6 6-7 0 4-2 6-6 7Z"></path>
+                </svg>
+                {{ ingredient | escape }}
+              </li>
+            {%- endfor -%}
+          {%- else -%}
+            {%- assign ingredient_text = ingredients_metafield.value | default: section.settings.ingredients -%}
+            {%- assign ingredient_items = ingredient_text | split: ',' -%}
+            {%- for ingredient in ingredient_items -%}
+              {%- assign clean_ingredient = ingredient | strip -%}
+              {%- if clean_ingredient != blank -%}
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M2 22 16 8"></path><path d="M7 17c-3-3-3-6 0-9 3 3 3 6 0 9Z"></path><path d="M11 13c-3-3-3-6 0-9 3 3 3 6 0 9Z"></path><path d="M15 9c0-4 2-6 6-7 0 4-2 6-6 7Z"></path>
+                  </svg>
+                  {{ clean_ingredient | escape }}
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <div class="brand-product-story__pairing">
+        <p class="brand-product-story__eyebrow">{{ section.settings.pairing_eyebrow | escape }}</p>
+        <h2>{{ section.settings.pairing_heading | escape }}</h2>
+        <p class="brand-product-story__pairing-copy">
+          {{ pairing_metafield.value | default: section.settings.pairing_text | escape }}
+        </p>
+        {%- if section.settings.shipping_text != blank -%}
+          <div class="brand-product-story__shipping-callout">
+            {%- render 'icon-brand', name: 'truck', size: 24 -%}
+            <p>{{ section.settings.shipping_text | escape }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product ingredients",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "ingredients_eyebrow",
+      "label": "Ingredients accent text",
+      "default": "What's in the bag"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_heading",
+      "label": "Ingredients heading",
+      "default": "Real, honest ingredients."
+    },
+    {
+      "type": "textarea",
+      "id": "ingredients",
+      "label": "Fallback ingredients",
+      "info": "Comma-separated. A product's custom.ingredients metafield takes priority, so each blend can list its own real ingredients.",
+      "default": "Rolled oats, Honey, Pecans, Walnuts, Sea salt"
+    },
+    {
+      "type": "text",
+      "id": "pairing_eyebrow",
+      "label": "Pairing accent text",
+      "default": "How to eat it"
+    },
+    {
+      "type": "text",
+      "id": "pairing_heading",
+      "label": "Pairing heading",
+      "default": "Perfect pairings."
+    },
+    {
+      "type": "textarea",
+      "id": "pairing_text",
+      "label": "Fallback pairing text",
+      "info": "A product's custom.pairings metafield takes priority.",
+      "default": "Cold milk, vanilla yogurt, or straight out of the bag at 3pm."
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_text",
+      "label": "Shipping callout",
+      "default": "Ships nationwide via USPS within 24 hours of ordering — arrives in 2–3 days."
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product ingredients"
+    }
+  ]
+}
+{% endschema %}

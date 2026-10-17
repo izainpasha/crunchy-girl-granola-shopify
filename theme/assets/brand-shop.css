@@ -1,0 +1,250 @@
+/* Crunchy Girl Granola — brand treatment for the product, collection,
+   cart/drawer and policy pages. Headings already inherit DM Serif Display
+   globally (base.css h1-h5/.h1-.h5), so this file focuses on color accents,
+   card/media surfaces, pill details and container spacing — the pieces
+   Dawn's stock markup doesn't already carry. */
+
+/* ---------- Global product-card reskin ----------
+   card-product.liquid is shared by the collection grid, PDP related /
+   complementary products, and search — reskinning it once here covers
+   all of those instead of building a parallel card system. */
+.card-information .price {
+  font-family: var(--font-heading-family);
+  font-weight: 500;
+  color: #cc6946;
+}
+
+.card-information .price .price-item--regular {
+  font-size: 1.8rem;
+}
+
+.card__badge .badge {
+  box-shadow: 0 6px 16px -6px rgba(var(--color-shadow), 0.4);
+}
+
+.card--card,
+.card--standard .card__inner {
+  border-radius: calc(var(--product-card-corner-radius, 1.6rem) + 0.2rem);
+}
+
+/* ---------- Collection banner ---------- */
+.collection-hero__title {
+  margin-bottom: 1.2rem;
+}
+
+.collection-hero__description {
+  opacity: 0.8;
+  font-size: 1.7rem;
+}
+
+/* ---------- Facets / filters / sort ---------- */
+.facets__summary {
+  border: 1px solid rgba(59, 33, 22, 0.2);
+  border-radius: var(--buttons-radius-outset, 999px);
+  padding: 1rem 1.6rem;
+}
+
+details[open] > .facets__summary,
+.facets__disclosure:hover .facets__summary {
+  border-color: #cc6946;
+  color: #cc6946;
+}
+
+.active-facets__button .active-facets__button-inner {
+  color: #cc6946;
+  border-color: rgba(204, 105, 70, 0.4);
+}
+
+.active-facets__button:hover .active-facets__button-inner {
+  color: #fbf6ec;
+  background-color: #cc6946;
+}
+
+.select .select__select:focus-visible {
+  border-color: #cc6946;
+}
+
+/* ---------- Pagination ---------- */
+.pagination__item--current {
+  background-color: #cc6946;
+  color: #fbf6ec;
+  border-radius: 50%;
+}
+
+.pagination__item--current::after {
+  display: none;
+}
+
+/* ---------- Product page ---------- */
+.product__text.caption-with-letter-spacing {
+  color: #cc6946;
+  font-weight: 600;
+}
+
+.price--large .price-item--regular,
+.price--large .price-item--sale {
+  font-family: var(--font-heading-family);
+  font-weight: 500;
+  color: #cc6946;
+  font-size: 3.2rem;
+}
+
+.product__media-wrapper .product__media-item img,
+.product__media-wrapper .product__media-item model-viewer,
+.product__media-wrapper .product__media-item video {
+  border-radius: calc(var(--media-radius, 1.6rem) + 0.4rem);
+}
+
+.thumbnail-list__item .thumbnail {
+  border-radius: calc(var(--media-radius, 1.6rem) * 0.5);
+}
+
+.thumbnail-list__item .thumbnail[aria-current='true'] {
+  outline: 2px solid #cc6946;
+  outline-offset: 2px;
+}
+
+.product-form__quantity .quantity__button:hover {
+  color: #cc6946;
+}
+
+.product__accordion summary:hover .accordion__title,
+.product__accordion details[open] summary .accordion__title {
+  color: #cc6946;
+}
+
+.product__accordion summary svg {
+  transition: color 0.2s ease;
+}
+
+.product__accordion details[open] summary svg {
+  color: #cc6946;
+}
+
+.product__accordion + .product__accordion {
+  border-top: 1px solid rgba(59, 33, 22, 0.12);
+}
+
+/* ---------- Cart drawer ---------- */
+.drawer__inner {
+  border-radius: 2rem 0 0 2rem;
+  box-shadow: -24px 0 48px -20px rgba(var(--color-shadow), 0.35);
+  padding: 0 2.4rem;
+}
+
+.drawer__inner-empty {
+  padding: 0 2.4rem;
+}
+
+.drawer__heading {
+  font-family: var(--font-heading-family);
+}
+
+.drawer__close:hover {
+  color: #cc6946;
+}
+
+.cart-item__image {
+  border-radius: 1.2rem;
+  overflow: hidden;
+}
+
+.cart-remove-button:hover {
+  color: #cc6946;
+}
+
+.totals__total {
+  font-family: var(--font-heading-family);
+}
+
+.totals__total-value {
+  font-family: var(--font-heading-family);
+  font-size: 2rem;
+  color: #cc6946;
+}
+
+.cart__checkout-button {
+  gap: 0.8rem;
+}
+
+/* ---------- Buy button icon (buy-buttons.liquid) ---------- */
+.product-form__submit {
+  gap: 0.8rem;
+}
+
+/* ---------- Cart page ---------- */
+.cart__items .title.title--primary {
+  margin-bottom: 0.4rem;
+}
+
+/* ---------- Policy pages ----------
+   Shopify serves policy pages (/policies/refund-policy etc.) via a fixed
+   platform-level fallback with no theme template and no page-width
+   constraint — confirmed by inspecting a live store's rendered markup.
+   This is purely additive CSS against that fixed class contract. */
+.shopify-policy__container {
+  max-width: 96rem;
+  margin: 0 auto;
+  padding: 4.8rem 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .shopify-policy__container {
+    padding: 6rem 5rem;
+  }
+}
+
+.shopify-policy__title h1 {
+  margin: 1.2rem 0 4rem;
+  color: #5f3215;
+  font-size: clamp(4.2rem, 7vw, 6rem);
+  font-weight: 400;
+  line-height: 1.05;
+  text-align: left;
+  text-transform: capitalize;
+}
+
+.shopify-policy__title {
+  text-align: left;
+}
+
+.shopify-policy__title::before {
+  content: "We've got you";
+  display: block;
+  color: #ef7416;
+  font-family: var(--font-script-family, 'Caveat', cursive);
+  font-size: 3.2rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.shopify-policy__body {
+  color: rgba(95, 50, 21, 0.88);
+  font-size: 2rem;
+  line-height: 1.55;
+}
+
+.shopify-policy__body p {
+  margin: 0;
+}
+
+.shopify-policy__body a {
+  color: #ef7416;
+  font-weight: 600;
+  text-decoration-thickness: 0.1rem;
+  text-underline-offset: 0.3rem;
+}
+
+@media screen and (max-width: 749px) {
+  .shopify-policy__title h1 {
+    margin-bottom: 2.8rem;
+  }
+
+  .shopify-policy__title::before {
+    font-size: 2.8rem;
+  }
+
+  .shopify-policy__body {
+    font-size: 1.7rem;
+  }
+}

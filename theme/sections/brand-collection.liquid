@@ -1,0 +1,237 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<collection-component>
+  <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+    {%- paginate collection.products by section.settings.products_per_page -%}
+      <div class="page-width">
+        {%- liquid
+          assign products_to_render = collection.products
+          if section.settings.curated_products != blank
+            assign products_to_render = section.settings.curated_products
+          endif
+        -%}
+        {%- assign has_active_filters = false -%}
+        {%- for filter in collection.filters -%}
+          {%- if filter.active_values.size > 0 -%}
+            {%- assign has_active_filters = true -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+          <div class="brand-collection__bar">
+            {%- if section.settings.enable_filtering -%}
+              <div class="brand-collection__pills">
+                {%- for filter in collection.filters -%}
+                  {%- if filter.type == 'list' -%}
+                    {%- for value in filter.values -%}
+                      {%- if value.count > 0 or value.active -%}
+                        {%- assign pill_url = value.url_to_add -%}
+                        {%- if value.active -%}
+                          {%- assign pill_url = value.url_to_remove -%}
+                        {%- endif -%}
+                        <a
+                          href="{{ pill_url }}"
+                          class="brand-collection__pill{% if value.active %} brand-collection__pill--active{% endif %}"
+                        >
+                          {{ value.label }}
+                        </a>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if has_active_filters -%}
+                  <a href="{{ collection.url }}" class="brand-collection__pill brand-collection__pill--clear">
+                    Clear all
+                  </a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.enable_sorting -%}
+              <form method="get" action="{{ collection.url }}" class="brand-collection__sort">
+                {%- for filter in collection.filters -%}
+                  {%- for value in filter.active_values -%}
+                    <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+                  {%- endfor -%}
+                {%- endfor -%}
+                <label for="BrandCollectionSort-{{ section.id }}" class="visually-hidden">Sort by</label>
+                <select
+                  name="sort_by"
+                  id="BrandCollectionSort-{{ section.id }}"
+                  class="select__select brand-collection__sort-select"
+                  onchange="this.form.submit()"
+                >
+                  {%- for option in collection.sort_options -%}
+                    <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>
+                      {{ option.name }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              </form>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if products_to_render.size == 0 -%}
+          <div class="brand-collection__empty">
+            <h2 class="h1">No products found</h2>
+            <p><a href="{{ collection.url }}" class="underlined-link">Remove filters</a> to see everything.</p>
+          </div>
+        {%- else -%}
+          <ul
+            class="brand-collection__grid"
+            style="--brand-collection-columns-mobile: {{ section.settings.columns_mobile }}; --brand-collection-columns-desktop: {{ section.settings.columns_desktop }};"
+          >
+            {%- for product in products_to_render -%}
+              <li class="brand-collection__item">
+                <a href="{{ product.url }}" class="brand-product-card">
+                  <div class="brand-product-card__media">
+                    {%- assign card_image = product.media.first.preview_image | default: product.featured_media.preview_image -%}
+                    {%- assign card_image_alt = card_image.alt | default: product.title -%}
+                    {%- if card_image -%}
+                      {{
+                        card_image
+                        | image_url: width: 700
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '300, 450, 600, 700',
+                          sizes: '(min-width: 990px) 25vw, 50vw',
+                          alt: card_image_alt
+                      }}
+                    {%- endif -%}
+                    {%- render 'brand-product-card-tag', card_product: product -%}
+                  </div>
+                  <div class="brand-product-card__body">
+                    <h3 class="brand-product-card__title">{{ product.title }}</h3>
+                    {%- if product.description != blank -%}
+                      <p class="brand-product-card__desc">{{ product.description | strip_html | truncatewords: 14 }}</p>
+                    {%- endif -%}
+                    <div class="brand-product-card__row">
+                      <span class="brand-product-card__price">
+                        {%- if product.price_varies -%}
+                          {%- assign product_price = product.price | money_without_trailing_zeros -%}
+                          {{ 'products.product.price.from_price_html' | t: price: product_price }}
+                        {%- else -%}
+                          {{ product.price | money_without_trailing_zeros }}
+                        {%- endif -%}
+                      </span>
+                      <span class="button button--primary brand-product-card__cta">
+                        {%- render 'icon-brand', name: 'package', size: 14 -%}
+                        View
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- if section.settings.curated_products == blank and paginate.pages > 1 -%}
+            {%- render 'pagination', paginate: paginate, anchor: '' -%}
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endpaginate -%}
+  </div>
+</collection-component>
+
+{% schema %}
+{
+  "name": "Brand collection grid",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "product_list",
+      "id": "curated_products",
+      "label": "Products shown on this collection page",
+      "limit": 8,
+      "info": "When selected, these products replace the collection's automatic product list."
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "label": "Products per page",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "label": "Enable filtering",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "label": "Enable sorting",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

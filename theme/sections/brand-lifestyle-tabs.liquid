@@ -1,0 +1,217 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign tab_count = 0
+  if product.description != blank
+    assign tab_count = tab_count | plus: 1
+  endif
+  if shop.shipping_policy.body != blank
+    assign tab_count = tab_count | plus: 1
+  endif
+  if shop.refund_policy.body != blank
+    assign tab_count = tab_count | plus: 1
+  endif
+-%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="brand-lifestyle-tabs">
+      {%- if tab_count > 0 -%}
+        <div class="brand-product-tabs" data-product-tabs>
+          <div class="brand-product-tabs__list" role="tablist">
+            {%- if product.description != blank -%}
+              <button
+                type="button"
+                class="brand-product-tabs__tab is-active"
+                role="tab"
+                aria-selected="true"
+                data-tab-target="description-{{ section.id }}"
+              >
+                Description
+              </button>
+            {%- endif -%}
+            {%- if shop.shipping_policy.body != blank -%}
+              <button
+                type="button"
+                class="brand-product-tabs__tab{% if product.description == blank %} is-active{% endif %}"
+                role="tab"
+                aria-selected="{% if product.description == blank %}true{% else %}false{% endif %}"
+                data-tab-target="shipping-{{ section.id }}"
+              >
+                Shipping
+              </button>
+            {%- endif -%}
+            {%- if shop.refund_policy.body != blank -%}
+              <button
+                type="button"
+                class="brand-product-tabs__tab{% if product.description == blank and shop.shipping_policy.body == blank %} is-active{% endif %}"
+                role="tab"
+                aria-selected="{% if product.description == blank and shop.shipping_policy.body == blank %}true{% else %}false{% endif %}"
+                data-tab-target="returns-{{ section.id }}"
+              >
+                Returns
+              </button>
+            {%- endif -%}
+          </div>
+          {%- if product.description != blank -%}
+            <div id="description-{{ section.id }}" class="brand-product-tabs__panel is-active rte">
+              {{ product.description }}
+            </div>
+          {%- endif -%}
+          {%- if shop.shipping_policy.body != blank -%}
+            <div
+              id="shipping-{{ section.id }}"
+              class="brand-product-tabs__panel rte{% if product.description == blank %} is-active{% endif %}"
+            >
+              {{ shop.shipping_policy.body }}
+            </div>
+          {%- endif -%}
+          {%- if shop.refund_policy.body != blank -%}
+            <div
+              id="returns-{{ section.id }}"
+              class="brand-product-tabs__panel rte{% if product.description == blank and shop.shipping_policy.body == blank %} is-active{% endif %}"
+            >
+              {{ shop.refund_policy.body }}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="brand-lifestyle-tabs__media brand-lifestyle-tabs__media--{{ section.settings.height }}">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 1600
+            | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 1600', sizes: '100vw', class: 'brand-lifestyle-tabs__image'
+          }}
+        {%- else -%}
+          {%- liquid
+            case section.settings.fallback_image
+              when 'hero-granola.jpg'
+                assign fallback_width = 1920
+                assign fallback_height = 1440
+              when 'texture-oat.jpg'
+                assign fallback_width = 1600
+                assign fallback_height = 800
+              else
+                assign fallback_width = 900
+                assign fallback_height = 900
+            endcase
+          -%}
+          <img
+            src="{{ section.settings.fallback_image | asset_url }}"
+            class="brand-lifestyle-tabs__image"
+            alt=""
+            loading="lazy"
+            width="{{ fallback_width }}"
+            height="{{ fallback_height }}"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- if tab_count > 0 -%}
+  <script>
+    (function () {
+      var tabs = document.currentScript.previousElementSibling.querySelector('[data-product-tabs]');
+      if (!tabs) return;
+      tabs.querySelector('.brand-product-tabs__list').addEventListener('click', function (event) {
+        var button = event.target.closest('.brand-product-tabs__tab');
+        if (!button) return;
+        tabs.querySelectorAll('.brand-product-tabs__tab').forEach(function (tab) {
+          tab.classList.remove('is-active');
+          tab.setAttribute('aria-selected', 'false');
+        });
+        button.classList.add('is-active');
+        button.setAttribute('aria-selected', 'true');
+        tabs.querySelectorAll('.brand-product-tabs__panel').forEach(function (panel) {
+          panel.classList.toggle('is-active', panel.id === button.dataset.tabTarget);
+        });
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Lifestyle photo + tabs",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "fallback_image",
+      "label": "Fallback image (used only if no image is picked above)",
+      "options": [
+        { "value": "hero-granola.jpg", "label": "Hero granola" },
+        { "value": "granola-birthday-cake.jpg", "label": "Birthday cake" },
+        { "value": "granola-apple.jpg", "label": "Apple" },
+        { "value": "granola-original.jpg", "label": "Original" },
+        { "value": "granola-trail.jpg", "label": "Trail" },
+        { "value": "texture-oat.jpg", "label": "Oat texture" }
+      ],
+      "default": "texture-oat.jpg"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Image height",
+      "options": [
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lifestyle photo + tabs"
+    }
+  ]
+}
+{% endschema %}

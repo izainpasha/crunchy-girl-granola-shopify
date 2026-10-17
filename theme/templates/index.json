@@ -1,0 +1,219 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero-granola",
+      "settings": {
+        "eyebrow": "Hi, y'all —",
+        "heading_line_1": "Small-Batch Granola,",
+        "heading_line_2": "This is the Good Stuff!",
+        "heading_line_3": "Made in Fort Worth.",
+        "heading_size": "hxl",
+        "subheading": "<p>Handcrafted by Gina. No mystery ingredients — just real food that actually tastes like it should.</p>",
+        "button_label": "Shop the Granola",
+        "button_link": "shopify://collections/all",
+        "support_text": "Ships nationwide via USPS within 24 hours · 2–3 day delivery",
+        "show_email_signup": true,
+        "signup_eyebrow": "Go Crunchy",
+        "signup_placeholder": "your@email.com",
+        "signup_button_label": "I'm in.",
+        "signup_microcopy": "Get discounts, fresh batch drops, and rewards straight to your inbox.",
+        "rating_label": "Loved in Fort Worth",
+        "rating_quote": "Actually addictive.",
+        "image_position": "right",
+        "color_scheme": "scheme-1",
+        "padding_bottom": 0
+      }
+    },
+    "badges": {
+      "type": "trust-badges",
+      "blocks": {
+        "badge-1": {
+          "type": "badge",
+          "settings": {
+            "icon": "package",
+            "label": "Small-Batch Made"
+          }
+        },
+        "badge-2": {
+          "type": "badge",
+          "settings": {
+            "icon": "truck",
+            "label": "Ships in 24 Hours"
+          }
+        },
+        "badge-3": {
+          "type": "badge",
+          "settings": {
+            "icon": "shield-check",
+            "label": "Secure Checkout"
+          }
+        },
+        "badge-4": {
+          "type": "badge",
+          "settings": {
+            "icon": "map-pin",
+            "label": "Proudly Made in Fort Worth, TX"
+          }
+        }
+      },
+      "block_order": [
+        "badge-1",
+        "badge-2",
+        "badge-3",
+        "badge-4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "products": {
+      "type": "product-showcase",
+      "settings": {
+        "eyebrow": "Five Flavors, One Obsession",
+        "heading": "Pick Your Blend!",
+        "heading_size": "h1",
+        "text": "Every batch is mixed by hand and baked to perfection in Fort Worth, Texas.  Each order is packed with just-baked, delicious, golden granola, and shipped within 24 hours of your order being placed.",
+        "button_label": "Shop the Granola",
+        "button_link": "shopify://collections/all",
+        "collection": "all",
+        "curated_products": [
+          "apple",
+          "birthday-cake",
+          "original",
+          "trail-variety-mix",
+          "almond-blend"
+        ],
+        "products_to_show": 5,
+        "color_scheme": "scheme-1",
+        "show_texture": true,
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "difference": {
+      "type": "difference",
+      "blocks": {
+        "feature-1": {
+          "type": "feature",
+          "settings": {
+            "icon": "wheat",
+            "title": "Real Ingredients",
+            "subtitle": "Nothing you can't pronounce"
+          }
+        },
+        "feature-2": {
+          "type": "feature",
+          "settings": {
+            "icon": "heart",
+            "title": "Actually Soft",
+            "subtitle": "Not rock-hard granola"
+          }
+        },
+        "feature-3": {
+          "type": "feature",
+          "settings": {
+            "icon": "ban",
+            "title": "Zero Preservatives",
+            "subtitle": "Nothing artificial"
+          }
+        },
+        "feature-4": {
+          "type": "feature",
+          "settings": {
+            "icon": "calendar",
+            "title": "Baked Weekly",
+            "subtitle": "Never sits on a shelf"
+          }
+        },
+        "feature-5": {
+          "type": "feature",
+          "settings": {
+            "icon": "leaf",
+            "title": "Sugar-Free Option",
+            "subtitle": "Sweetened naturally with monk fruit"
+          }
+        }
+      },
+      "block_order": [
+        "feature-1",
+        "feature-2",
+        "feature-3",
+        "feature-4",
+        "feature-5"
+      ],
+      "settings": {
+        "eyebrow": "No Shortcuts, No Filler",
+        "heading": "The Difference Is In the Batch",
+        "heading_size": "h1",
+        "text": "<p>Real ingredients. Genuinely soft — not the jaw-breaking stuff. Zero preservatives. Baked fresh every week, in batches small enough that we still taste-test every one.</p>",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial-1": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "If granola had a royalty, this one would wear the crown. It’s like a cozy campfire hug for your tastebuds—crispy, nutty, kissed by maple, and just sweet enough to make your morning feel like a treat. Honestly, it’s less breakfast and more a lifestyle choice!",
+            "name": "Sloan W.",
+            "location": "Fort Worth, TX"
+          }
+        },
+        "testimonial-2": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Birthday Cake tastes like a party in a jar. My nut-free kiddo is obsessed.",
+            "name": "Sarah P.",
+            "location": "Dallas, TX"
+          }
+        },
+        "testimonial-3": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Finally a sugar-free granola that doesn't taste like cardboard. Apple Cinnamon is my favorite.",
+            "name": "Jess R.",
+            "location": "Austin, TX"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial-1",
+        "testimonial-2",
+        "testimonial-3"
+      ],
+      "settings": {
+        "rating_text": "Loved by our Fort Worth regulars",
+        "heading_line_1": "Reviews From Our Customers",
+        "heading_line_2": "what our Granola Gurus are saying...",
+        "heading_size": "h1",
+        "color_scheme": "scheme-1",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "badges",
+    "products",
+    "difference",
+    "testimonials"
+  ]
+}

@@ -1,0 +1,190 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="brand-testimonials__header">
+      <div class="brand-testimonials__rating-stars">
+        {%- for i in (1..5) -%}
+          {%- render 'icon-brand', name: 'star', size: 18 -%}
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.rating_text != blank -%}
+        <p class="brand-testimonials__rating-text">{{ section.settings.rating_text }}</p>
+      {%- endif -%}
+      <h2 class="{{ section.settings.heading_size }}">
+        {%- if section.settings.heading_line_1 != blank -%}
+          {{ section.settings.heading_line_1 }}<br>
+        {%- endif -%}
+        {%- if section.settings.heading_line_2 != blank -%}
+          <span class="brand-hero__heading-line--accent">{{ section.settings.heading_line_2 }}</span>
+        {%- endif -%}
+      </h2>
+    </div>
+
+    <div class="brand-testimonials__grid">
+      {%- for block in section.blocks -%}
+        <div class="brand-testimonial-card" {{ block.shopify_attributes }}>
+          <div class="brand-testimonial-card__stars">
+            {%- assign stars = block.settings.stars | default: 5 -%}
+            {%- for i in (1..stars) -%}
+              {%- render 'icon-brand', name: 'star', size: 16 -%}
+            {%- endfor -%}
+          </div>
+          <p class="brand-testimonial-card__quote">&ldquo;{{ block.settings.quote }}&rdquo;</p>
+          <p class="brand-testimonial-card__author">
+            {{ block.settings.name }}<br>
+            {%- if block.settings.location != blank -%}
+              <span class="brand-testimonial-card__location">{{ block.settings.location }}</span>
+            {%- endif -%}
+          </p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.9 · What the granola gurus are saying"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_1",
+      "label": "Heading (plain)",
+      "default": "What the"
+    },
+    {
+      "type": "text",
+      "id": "heading_line_2",
+      "label": "Heading (accent)",
+      "default": "granola gurus are saying."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Medium" },
+        { "value": "h1", "label": "Large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "I bought one bag and immediately ordered three more. The clusters are UNREAL."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Hannah M."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "Fort Worth, TX"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I bought one bag and immediately ordered three more. The clusters are UNREAL.",
+            "name": "Hannah M.",
+            "location": "Fort Worth, TX"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Birthday Cake tastes like a party in a jar. My nut-free kiddo is obsessed.",
+            "name": "Sarah P.",
+            "location": "Dallas, TX"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Finally a sugar-free granola that doesn't taste like cardboard. Apple is my favorite.",
+            "name": "Jess R.",
+            "location": "Austin, TX"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+# Learn more: https://shopify.dev/docs/apps/tools/cli/configuration
+client_id = "8d89f55b6866ada27e0d2b83407b79a6"
+name = "Crunchy Girl Admin"
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = false
+
+[webhooks]
+api_version = "2026-07"
+
+[access_scopes]
+scopes = "read_products,write_products,read_publications,write_publications,read_purchase_options,write_purchase_options,read_legal_policies,write_legal_policies"
+
+[auth]
+redirect_urls = [ "http://127.0.0.1:3456/oauth/callback" ]

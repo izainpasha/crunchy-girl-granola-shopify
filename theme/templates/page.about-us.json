@@ -1,0 +1,38 @@
+{
+  "sections": {
+    "story": {
+      "type": "brand-about-story",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Our story",
+        "heading": "A folding table, one blend, and a farmers market.",
+        "image_alt": "Gina holding a bag of Crunchy Girl Granola in the kitchen",
+        "caption": "Gina with our Original blend — the one that started it all.",
+        "story": "<p>Every good story has to start somewhere, and ours began back in 2019 with a folding table, a handful of bags of granola, and a hopeful spot at the Clearfork Farmers Market in Fort Worth. We had one blend — our Original — and figured if folks liked it well enough to come back for more, we'd count ourselves fortunate.</p><p>As it turns out, people have a way of encouraging a good thing. Before long, one blend became six. Along came gluten-free, nut-free, sugar-free, and a parade of seasonal favorites that seem to disappear about as quickly as they're made.</p><p>Then, in July of 2026, we took a leap of faith and opened The Granola Shop on The Circle in the heart of Fort Worth. We still set up at our weekend markets around Fort Worth, because that's where this story began.</p><p>We're especially fond of our Go Crunchy refill discount — bring back your jar, fill it again from our bulk bins, and we'll knock a little off the price. For those who like a little adventure with their breakfast, we've laid out freeze-dried fruits, toasted coconut, and marshmallows so you can build a granola that's every bit as individual as you are.</p><p>Our Instagram and Facebook pages keep track of our weekly wanderings, and our online store is always open. We've always believed life's a little better with good company, honest ingredients, and something wonderfully delicious to start the day. We'd be honored to share all three with you.</p>",
+        "signature": "— Gina & the Crunchy Girl team",
+        "button_label": "Shop the Granola",
+        "button_link": "shopify://collections/all",
+        "padding_top": 104,
+        "padding_bottom": 104
+      }
+    },
+    "newsletter": {
+      "type": "brand-signup-cta",
+      "settings": {
+        "heading": "Get 10% off your first bag.",
+        "heading_size": "h1",
+        "signup_eyebrow": "Go Crunchy",
+        "signup_placeholder": "you@sweethome.com",
+        "signup_button_label": "Get my 10% off",
+        "signup_microcopy": "Join the crunch club for fresh-batch drops, new flavors, and Texas-sized discounts.",
+        "color_scheme": "scheme-5",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    }
+  },
+  "order": [
+    "story",
+    "newsletter"
+  ]
+}

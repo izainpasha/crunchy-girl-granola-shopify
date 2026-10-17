@@ -1,0 +1,31 @@
+{%- comment -%}
+  Lovable's flavor cards use a clean text pill with a product-specific color.
+  Keeping the mapping here prevents internal Shopify tags from leaking into
+  the storefront and keeps homepage, collection, and recommendations aligned.
+
+  Accepts: card_product (product object)
+{%- endcomment -%}
+{%- liquid
+  assign badge_text = card_product.tags.first
+  assign badge_tone = 'default'
+
+  case card_product.handle
+    when 'birthday-cake'
+      assign badge_text = 'Nut-Free'
+      assign badge_tone = 'blush'
+    when 'apple'
+      assign badge_text = 'Sugar-Free'
+      assign badge_tone = 'sage'
+    when 'original'
+      assign badge_text = 'The Classic'
+      assign badge_tone = 'honey'
+    when 'trail-variety-mix', 'trail-mix'
+      assign badge_text = 'Trail-Ready'
+      assign badge_tone = 'terracotta'
+  endcase
+-%}
+{%- if badge_text != blank -%}
+  <span class="brand-product-card__tag brand-product-card__tag--{{ badge_tone }}">
+    {{- badge_text | escape -}}
+  </span>
+{%- endif -%}

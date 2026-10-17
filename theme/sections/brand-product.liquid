@@ -1,0 +1,709 @@
+<product-info
+  id="MainProduct-{{ section.id }}"
+  class="brand-product-page section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
+  data-section="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-update-url="true"
+  data-url="{{ product.url }}"
+  {% if section.settings.image_zoom == 'hover' %}
+    data-zoom-on-hover
+  {% endif %}
+>
+  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+  {{ 'brand-product-page.css' | asset_url | stylesheet_tag }}
+  {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+  {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+
+  {%- unless product.has_only_default_variant -%}
+    {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+    {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
+    {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
+  {%- endunless -%}
+
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'brand-product-mobile.js' | asset_url }}" defer="defer"></script>
+  {%- if section.settings.image_zoom == 'hover' -%}
+    <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+  {%- if product.media.size > 0 -%}
+    <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  {%- assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' -%}
+  <product-component view-event-payload="{{ product | standard_event_data: 'view', context: 'page' | escape }}">
+    <div class="page-width">
+      <div class="brand-product__back-row">
+        <a href="{{ routes.all_products_collection_url }}" class="brand-product__back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m12 19-7-7 7-7"></path>
+            <path d="M19 12H5"></path>
+          </svg>
+          {{ section.settings.back_label | escape }}
+        </a>
+      </div>
+      <div class="brand-product__grid">
+        <div class="brand-product__media">
+          <div class="brand-product__media-stage">
+            {%- liquid
+              assign product_badge_text = product.tags.first
+              case product.handle
+                when 'birthday-cake'
+                  assign product_badge_text = 'Nut-Free'
+                when 'apple'
+                  assign product_badge_text = 'Sugar-Free'
+                when 'original'
+                  assign product_badge_text = 'The Classic'
+                when 'trail-variety-mix', 'trail-mix'
+                  assign product_badge_text = 'Trail-Ready'
+              endcase
+            -%}
+            {%- if section.settings.show_product_tag and product_badge_text != blank -%}
+              <span class="brand-product__tag">{{ product_badge_text | escape }}</span>
+            {%- endif -%}
+            {%- render 'product-media-gallery', variant_images: variant_images -%}
+          </div>
+          <div
+            class="brand-product__gallery-dots"
+            data-gallery-dots
+            data-gallery-list="Slider-Gallery-{{ section.id }}"
+            role="group"
+            aria-label="Choose product image"
+            hidden
+          ></div>
+          {% if product.metafields.custom.nutri_image != blank %}
+            <div class="nutri-image-box brand-product__nutri--desktop">
+              <img class="nutri-image" height="" width="" src="{{ product.metafields.custom.nutri_image | img_url: 'master' }}">
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="brand-product__info">
+          <section id="ProductInfo-{{ section.id }}" class="brand-product__info-inner">
+            {%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+            {%- if section.settings.eyebrow != blank -%}
+              <p class="brand-product__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+            {%- endif -%}
+
+            <div class="product__title">
+              <h1>{{ product.title | escape }}</h1>
+              <a href="{{ product.url }}" class="product__title">
+                <h2 class="h1">{{ product.title | escape }}</h2>
+              </a>
+            </div>
+
+            {%- if product.description != blank -%}
+              <div class="brand-product__lead-wrap" data-brand-lead>
+                <div class="brand-product__lead rte" id="ProductLead-{{ section.id }}">
+                  {{ product.description }}
+                </div>
+                <button
+                  type="button"
+                  class="brand-product__lead-toggle"
+                  aria-expanded="false"
+                  aria-controls="ProductLead-{{ section.id }}"
+                  data-brand-lead-toggle
+                  hidden
+                >
+                  Read more
+                </button>
+              </div>
+            {%- endif -%}
+
+            <div id="price-{{ section.id }}" role="status" class="brand-product__price">
+              {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
+              {%- unless product.selected_or_first_available_variant.title == 'Default Title' -%}
+                <span class="brand-product__unit">/ {{ product.selected_or_first_available_variant.title | escape }}</span>
+              {%- endunless -%}
+            </div>
+
+            {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
+              <div class="product__tax caption rte">
+                {%- if cart.taxes_included -%}
+                  {{ 'products.product.taxes_included' | t }}
+                {%- endif -%}
+                {%- if shop.shipping_policy.body != blank -%}
+                  {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            {%- render 'product-variant-picker', product: product, block: section, product_form_id: product_form_id -%}
+
+            {%- assign mix_in_products = product.metafields.custom.mix_ins.value -%}
+            {%- if mix_in_products != blank -%}
+              <fieldset
+                class="product-form__input brand-product__mix-ins"
+                data-brand-mix-ins
+                data-parent-product="{{ product.title | escape }}"
+              >
+                <legend class="form__label brand-product-option__label brand-product__mix-ins-legend">
+                  <span>Mix-Ins</span>
+                  {%- if section.settings.mixins_helper != blank -%}
+                    <span class="brand-product-option__helper">{{ section.settings.mixins_helper | escape }}</span>
+                  {%- endif -%}
+                </legend>
+                <button
+                  type="button"
+                  class="brand-product__mix-ins-toggle"
+                  aria-expanded="false"
+                  aria-controls="MixInOptions-{{ section.id }}"
+                  data-mix-ins-toggle
+                >
+                  <span class="brand-product__mix-ins-toggle-text">
+                    <span class="brand-product__mix-ins-toggle-title">{{ section.settings.mixins_mobile_heading | escape }}</span>
+                    <span class="brand-product__mix-ins-toggle-helper">
+                      <span data-mix-ins-count hidden></span>
+                      <span data-mix-ins-helper>{{ section.settings.mixins_helper | escape }}</span>
+                    </span>
+                  </span>
+                  <svg class="brand-product__mix-ins-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6"></path>
+                  </svg>
+                </button>
+                <div class="brand-product__mix-in-options" id="MixInOptions-{{ section.id }}">
+                  {%- for mix_in_product in mix_in_products -%}
+                    {%- assign mix_in_variant = mix_in_product.selected_or_first_available_variant -%}
+                    {%- if mix_in_variant != blank and mix_in_variant.available -%}
+                      <input
+                        class="visually-hidden"
+                        type="checkbox"
+                        id="MixIn-{{ section.id }}-{{ mix_in_variant.id }}"
+                        data-mix-in-input
+                        data-variant-id="{{ mix_in_variant.id }}"
+                        data-selling-plan-ids="{% for allocation in mix_in_variant.selling_plan_allocations %}{{ allocation.selling_plan.id }}{% unless forloop.last %},{% endunless %}{% endfor %}"
+                      >
+                      <label for="MixIn-{{ section.id }}-{{ mix_in_variant.id }}">
+                        {{ mix_in_product.title | escape }}
+                        <span class="visually-hidden">, {{ mix_in_variant.price | money }}</span>
+                      </label>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+            {%- endif -%}
+
+            {%- assign current_variant = product.selected_or_first_available_variant -%}
+            {%- if product.selling_plan_groups.size > 0 -%}
+              <fieldset
+                id="PurchaseOptions-{{ section.id }}"
+                class="brand-product__purchase-options"
+                data-purchase-options
+              >
+                <legend class="form__label">Delivery</legend>
+                <div class="brand-product__purchase-option-grid">
+                  <label class="brand-product__purchase-option is-selected">
+                    <input
+                      type="radio"
+                      name="purchase_option_{{ section.id }}"
+                      value=""
+                      checked
+                      data-purchase-option-input
+                    >
+                    <span class="brand-product__purchase-option-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 10a4 4 0 0 1-8 0"></path><path d="M3.1 6h17.8"></path><path d="M3.4 5.5A2 2 0 0 0 3 6.7V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.7a2 2 0 0 0-.4-1.2l-2-2.7A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8Z"></path>
+                      </svg>
+                    </span>
+                    <span class="brand-product__purchase-option-copy">
+                      <span class="brand-product__purchase-option-title">One-time</span>
+                      <span class="brand-product__purchase-option-price" data-onetime-price>{{ section.settings.one_time_description | escape }}</span>
+                    </span>
+                  </label>
+                  {%- for group in product.selling_plan_groups -%}
+                    {%- assign plan = group.selling_plans.first -%}
+                    {%- assign allocation = current_variant.selling_plan_allocations
+                      | where: 'selling_plan.id', plan.id
+                      | first
+                    -%}
+                    {%- liquid
+                      assign price_difference = 0
+                      if allocation
+                        assign price_difference = allocation.price | minus: current_variant.price
+                        assign absolute_difference = price_difference | abs
+                      endif
+                    -%}
+                    <label class="brand-product__purchase-option">
+                      <input
+                        type="radio"
+                        name="purchase_option_{{ section.id }}"
+                        value="{{ plan.id }}"
+                        data-purchase-option-input
+                      >
+                      <span class="brand-product__purchase-option-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="m17 2 4 4-4 4"></path><path d="M3 11v-1a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v1a4 4 0 0 1-4 4H3"></path>
+                        </svg>
+                      </span>
+                      <span class="brand-product__purchase-option-copy">
+                        <span class="brand-product__purchase-option-title">
+                          {{ group.name | strip }}
+                          {%- if price_difference > 0 -%}
+                            <small>(+{{ absolute_difference | money_without_trailing_zeros }})</small>
+                          {%- elsif price_difference < 0 -%}
+                            <small>(Save {{ absolute_difference | money_without_trailing_zeros }})</small>
+                          {%- endif -%}
+                        </span>
+                        <span class="brand-product__purchase-option-price">{{ section.settings.subscription_description | escape }}</span>
+                      </span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+              <script>
+                (function () {
+                  // Seal Subscriptions injects its own hidden purchase-option
+                  // widget (radios named `subs_type_{hash}`, one valued
+                  // "one_time" and one valued as the plan index) into this
+                  // same product form, and only ITS radios control the real
+                  // `selling_plan` field Seal manages internally. Seal's
+                  // native inputs are inert (tabindex="-1") — its script
+                  // listens for clicks on the styled `[role="radio"]` div
+                  // that wraps each one, so this custom UI must click THAT,
+                  // not the input, to actually flip Seal's selection.
+                  // Posting a second `selling_plan` field of our own would
+                  // race Seal's and silently lose, always adding one-time
+                  // regardless of what the shopper picked.
+                  var scope = document.currentScript.closest('product-info') || document;
+                  var fieldset = scope.querySelector('[data-purchase-options]');
+                  if (!fieldset) return;
+
+                  function sealOptionToggle(isOneTime) {
+                    var containers = Array.prototype.slice.call(
+                      scope.querySelectorAll('.sls-option-container')
+                    );
+                    var container = containers.find(function (el) {
+                      var radio = el.querySelector('input.sls-option');
+                      return radio && (radio.value === 'one_time') === isOneTime;
+                    });
+                    return container ? container.querySelector('[role="radio"]') : null;
+                  }
+
+                  fieldset.addEventListener('change', function (event) {
+                    var input = event.target.closest('[data-purchase-option-input]');
+                    if (!input) return;
+                    fieldset.querySelectorAll('.brand-product__purchase-option').forEach(function (label) {
+                      label.classList.toggle('is-selected', label.contains(input));
+                    });
+
+                    var target = sealOptionToggle(!input.value);
+                    if (target) target.click();
+                  });
+                })();
+              </script>
+            {%- endif -%}
+
+            {%- if section.settings.show_quantity_selector -%}
+              <div
+              id="Quantity-Form-{{ section.id }}"
+              class="product-form__input product-form__quantity brand-product__quantity"
+              >
+              {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
+              <span class="visually-hidden" id="quantity-label-{{ section.id }}">
+                {{- 'products.product.quantity.label' | t -}}
+              </span>
+              <label
+                class="quantity__label form__label"
+                for="Quantity-{{ section.id }}"
+                aria-labelledby="quantity-label-{{ section.id }}"
+              >
+                <span aria-hidden="true">{{ 'products.product.quantity.label' | t }}</span>
+                <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}" aria-hidden="true">
+                  {%- render 'loading-spinner' -%}
+                  <span>({{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}})</span>
+                </span>
+              </label>
+              <div class="quantity__rules caption" id="Quantity-Rules-{{ section.id }}"></div>
+              <div class="volume-pricing-note hidden" id="Volume-Note-{{ section.id }}"></div>
+              <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                <button class="quantity__button" name="minus" type="button">
+                  <span class="visually-hidden">
+                    {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                  </span>
+                  <span class="svg-wrapper">{{- 'icon-minus.svg' | inline_asset_content -}}</span>
+                </button>
+                <input
+                  class="quantity__input"
+                  type="number"
+                  name="quantity"
+                  id="Quantity-{{ section.id }}"
+                  data-cart-quantity="{{ cart_qty }}"
+                  data-min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                  min="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                  {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
+                    data-max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                    max="{{ product.selected_or_first_available_variant.quantity_rule.max }}"
+                  {%- endif -%}
+                  step="{{ product.selected_or_first_available_variant.quantity_rule.increment }}"
+                  value="{{ product.selected_or_first_available_variant.quantity_rule.min }}"
+                  form="{{ product_form_id }}"
+                >
+                <button class="quantity__button" name="plus" type="button">
+                  <span class="visually-hidden">
+                    {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                  </span>
+                  <span class="svg-wrapper">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+                </button>
+              </quantity-input>
+              </div>
+            {%- endif -%}
+
+            {%- render 'buy-buttons',
+              block: section,
+              product: product,
+              product_form_id: product_form_id,
+              section_id: section.id,
+              show_pickup_availability: true,
+              secondary_url: routes.all_products_collection_url,
+              secondary_label: section.settings.secondary_button_label,
+              show_buy_now: true,
+              buy_now_label: section.settings.buy_now_label
+            -%}
+
+            <div class="brand-product__badges">
+              <span class="brand-badge">{%- render 'icon-brand', name: 'check', size: 16 -%}<span class="brand-badge__label">{{ section.settings.detail_one | escape }}</span></span>
+              <span class="brand-badge">{%- render 'icon-brand', name: 'check', size: 16 -%}<span class="brand-badge__label">{{ section.settings.detail_two | escape }}</span></span>
+            </div>
+
+            {%- liquid
+              assign nutri_image = product.metafields.custom.nutri_image.value
+              assign nutri_alt = 'Nutrition Facts for ' | append: product.title
+              assign ingredients_metafield = product.metafields.custom.ingredients
+              assign has_ingredient_list = false
+              if ingredients_metafield.type contains 'list.' and ingredients_metafield.value != blank
+                assign has_ingredient_list = true
+              endif
+            -%}
+            {%- if nutri_image != blank or has_ingredient_list -%}
+              <div class="brand-product__mobile-details">
+                {%- if nutri_image != blank -%}
+                  <details class="brand-product__detail">
+                    <summary class="brand-product__detail-summary">
+                      <span>Nutrition Facts</span>
+                      <svg class="brand-product__detail-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </summary>
+                    <div class="brand-product__detail-body">
+                      <div class="nutri-image-box brand-product__nutri--mobile">
+                        {{
+                          nutri_image
+                          | image_url: width: 1200
+                          | image_tag:
+                            class: 'nutri-image',
+                            loading: 'lazy',
+                            widths: '400, 600, 800, 1000, 1200',
+                            sizes: 'calc(100vw - 7rem)',
+                            alt: nutri_alt
+                        }}
+                      </div>
+                    </div>
+                  </details>
+                {%- endif -%}
+                {%- if has_ingredient_list -%}
+                  <details class="brand-product__detail">
+                    <summary class="brand-product__detail-summary">
+                      <span>Ingredients</span>
+                      <svg class="brand-product__detail-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m6 9 6 6 6-6"></path>
+                      </svg>
+                    </summary>
+                    <div class="brand-product__detail-body">
+                      <ul class="brand-product__ingredient-list">
+                        {%- for ingredient in ingredients_metafield.value -%}
+                          <li>{{ ingredient | escape }}</li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  </details>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </section>
+        </div>
+      </div>
+    </div>
+    {%- render 'product-media-modal', variant_images: variant_images -%}
+  </product-component>
+
+  {%- assign sticky_variant = product.selected_or_first_available_variant -%}
+  <div
+    class="brand-sticky-buy"
+    id="BrandStickyBuy-{{ section.id }}"
+    data-brand-sticky-buy
+    data-section-id="{{ section.id }}"
+    aria-hidden="true"
+    inert
+  >
+    <div class="brand-sticky-buy__info" id="BrandStickyBuyInfo-{{ section.id }}">
+      <span class="brand-sticky-buy__title">{{ product.title | escape }}</span>
+      <span class="brand-sticky-buy__meta">
+        {%- if sticky_variant != blank -%}
+          {%- unless sticky_variant.title == 'Default Title' -%}
+            {{ sticky_variant.title | escape }} ·
+          {% endunless -%}
+          <span class="brand-sticky-buy__price">{{ sticky_variant.price | money_without_trailing_zeros }}</span>
+        {%- endif -%}
+      </span>
+    </div>
+    <button
+      type="submit"
+      form="{{ product_form_id }}"
+      class="button button--primary brand-sticky-buy__button"
+      data-brand-buy-now
+      {% if sticky_variant == blank or sticky_variant.available == false %}
+        disabled
+      {% endif %}
+    >
+      <span data-buy-now-label data-default-label="{{ section.settings.buy_now_label | escape }}">
+        {%- if sticky_variant == blank -%}
+          {{ 'products.product.unavailable' | t }}
+        {%- elsif sticky_variant.available == false -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- else -%}
+          {{ section.settings.buy_now_label | escape }}
+        {%- endif -%}
+      </span>
+      {%- render 'loading-spinner' -%}
+    </button>
+  </div>
+
+  <script type="application/ld+json">
+    {{ product | structured_data }}
+  </script>
+</product-info>
+
+{% schema %}
+{
+  "name": "Brand product",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "back_label",
+      "label": "Back link label",
+      "default": "Back to all flavors"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Script accent text",
+      "default": "Small-batch flavor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_tag",
+      "label": "Show first product tag on image",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "See other flavors"
+    },
+    {
+      "type": "text",
+      "id": "mixins_helper",
+      "label": "Mix-ins helper text",
+      "default": "+$2 each · add as many as you like"
+    },
+    {
+      "type": "text",
+      "id": "mixins_mobile_heading",
+      "label": "Mix-ins heading (mobile, collapsible)",
+      "default": "Customize Your Granola"
+    },
+    {
+      "type": "text",
+      "id": "buy_now_label",
+      "label": "Buy Now button label (mobile)",
+      "default": "Buy Now"
+    },
+    {
+      "type": "text",
+      "id": "one_time_description",
+      "label": "One-time delivery description",
+      "default": "Ships once"
+    },
+    {
+      "type": "text",
+      "id": "subscription_description",
+      "label": "Subscription delivery description",
+      "default": "Fresh batch every month · cancel anytime"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "detail_one",
+      "label": "First product detail",
+      "default": "Made with real ingredients"
+    },
+    {
+      "type": "text",
+      "id": "detail_two",
+      "label": "Second product detail",
+      "default": "Ships within 24 hours"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": "Media column size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "media_fit",
+      "label": "Media fit",
+      "options": [
+        { "value": "contain", "label": "Contain" },
+        { "value": "cover", "label": "Cover" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "checkbox",
+      "id": "constrain_to_viewport",
+      "label": "Constrain media height to viewport",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_info",
+      "label": "Make info sticky on scroll (desktop)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_variants",
+      "label": "Hide other variants' media after selecting a variant",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Desktop gallery layout",
+      "options": [
+        { "value": "stacked", "label": "Stacked" },
+        { "value": "columns", "label": "2 columns" },
+        { "value": "thumbnail", "label": "Thumbnails" },
+        { "value": "thumbnail_slider", "label": "Thumbnail carousel" }
+      ],
+      "default": "thumbnail"
+    },
+    {
+      "type": "select",
+      "id": "mobile_thumbnails",
+      "label": "Mobile thumbnails",
+      "options": [
+        { "value": "columns", "label": "Show 2 columns" },
+        { "value": "show", "label": "Show thumbnails" },
+        { "value": "hide", "label": "Hide thumbnails" }
+      ],
+      "default": "hide"
+    },
+    {
+      "type": "select",
+      "id": "image_zoom",
+      "label": "Clicking image opens",
+      "options": [
+        { "value": "lightbox", "label": "Open lightbox" },
+        { "value": "hover", "label": "Zoom on hover" },
+        { "value": "none", "label": "No zoom" }
+      ],
+      "default": "lightbox"
+    },
+    {
+      "type": "select",
+      "id": "picker_type",
+      "label": "Variant picker type",
+      "options": [
+        { "value": "button", "label": "Buttons" },
+        { "value": "dropdown", "label": "Dropdown" }
+      ],
+      "default": "button"
+    },
+    {
+      "type": "select",
+      "id": "swatch_shape",
+      "label": "Variant swatch shape",
+      "options": [
+        { "value": "circle", "label": "Circle" },
+        { "value": "square", "label": "Square" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout buttons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1062 @@
+/* Crunchy Girl Granola — brand marketing sections
+   Hero, trust badges, difference/feature cards, product showcase,
+   testimonials and small helpers layered on top of Dawn's base styles. */
+
+.brand-script {
+  font-family: var(--font-script-family, cursive);
+  font-weight: 600;
+}
+
+body {
+  letter-spacing: 0;
+}
+
+/* ---------- Newsletter signup (custom section) ----------
+   Full control over markup here (real `{% form 'customer' %}`, not Dawn's
+   stock newsletter section) specifically so this two-column layout doesn't
+   depend on fighting a DOM structure built for a stacked/centered design. */
+.brand-newsletter {
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.brand-newsletter__text .brand-hero__eyebrow {
+  color: #ebaa2d;
+}
+
+.brand-newsletter__text h2 {
+  color: #fbf6ec;
+  margin: 0 0 1.2rem;
+}
+
+.brand-newsletter__subtext {
+  color: #fbf6ec;
+  opacity: 0.9;
+  font-size: 1.6rem;
+  margin: 0;
+  max-width: 42rem;
+}
+
+.brand-newsletter__field {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-newsletter__input {
+  flex: 1;
+  min-width: 0;
+  height: 5rem;
+  padding: 0 1.8rem;
+  border: none;
+  border-radius: 999px;
+  background-color: #fbf6ec;
+  color: #3b2116;
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+}
+
+.brand-newsletter__input::placeholder {
+  color: rgba(59, 33, 22, 0.5);
+}
+
+.brand-newsletter__button {
+  flex-shrink: 0;
+  white-space: nowrap;
+  background-color: #3b2116;
+  color: #fbf6ec;
+}
+
+.brand-newsletter__message {
+  display: block;
+  margin-top: 1rem;
+  color: #fbf6ec;
+  font-size: 1.3rem;
+}
+
+@media screen and (min-width: 750px) {
+  .brand-newsletter {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+
+  .brand-newsletter__form {
+    flex-shrink: 0;
+    width: 42rem;
+    max-width: 100%;
+  }
+}
+
+/* ---------- Footer: column labels + wordmark to match the source design ----------
+   Every footer heading ships as the same plain heading tag. Keep "Shop" / "Say Hey"
+   as plain sans-serif labels (not the large serif treatment they inherit by
+   default), and give the brand block its own script-font wordmark instead. */
+.footer-block--menu .footer-block__heading,
+.footer-block:has(.footer-block__details-content.rte) .footer-block__heading {
+  font-family: var(--font-body-family);
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-bottom: 1.6rem;
+}
+
+.footer-block:has(.footer-block__brand-info) .footer-block__heading {
+  font-family: var(--font-script-family, cursive);
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: #cc6946;
+}
+
+.footer-block:has(.footer-block__brand-info) .footer-brand__heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-brand__mark {
+  flex: 0 0 auto;
+  width: 3.6rem;
+  height: auto;
+}
+
+.brand-footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.brand-footer-contact__row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.brand-footer-contact__row .icon-brand {
+  flex-shrink: 0;
+  color: #cc6946;
+}
+
+.header .list-menu__item {
+  font-weight: 600;
+}
+
+.list-social__link {
+  align-items: center;
+  border-radius: 50%;
+  background: #f4ead9;
+  display: flex;
+  padding: 1.1rem;
+  color: rgb(var(--color-foreground));
+}
+
+.footer-block__brand-info .footer__list-social.list-social {
+  margin-top: 15px;
+}
+
+.footer__content-bottom-wrapper:has(.footer__copyright)::after {
+  content: 'This is the Good Stuff! · Baked with honest ingredients and Texas sunshine.';
+  font-family: var(--font-script-family, cursive);
+  font-size: 1.7rem;
+  opacity: 0.85;
+  margin-left: auto;
+  padding-left: 2rem;
+  align-self: center;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 989px) {
+  .footer__content-bottom-wrapper:has(.footer__copyright)::after {
+    margin-left: 0;
+    padding-left: 0;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .brand-newsletter__field,
+  .brand-hero__signup-field {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .brand-newsletter__button,
+  .brand-hero__signup-button {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Dawn draws the divider above the copyright row full-bleed across
+   .footer__content-bottom, then constrains the content inside it to
+   page-width — leaving the rule wider than the text it separates. Move
+   the rule onto the already-contained wrapper instead.
+   !important is deliberate: section-footer.css is linked from within the
+   footer section's own markup, which places it later in the document than
+   this stylesheet's <head> link — at equal specificity it would otherwise
+   win regardless of source order in this file. */
+.footer__content-bottom {
+  border-top: 0 none !important;
+}
+
+.footer__content-top {
+  padding-bottom: 0;
+}
+
+.footer__content-bottom-wrapper:has(.footer__copyright) {
+  border-top: solid 0.1rem #e0b890;
+  padding-top: 3rem;
+}
+
+/* ---------- Sticky "Shop the Granola" floating CTA ---------- */
+.sticky-shop-cta {
+  position: fixed;
+  left: 50%;
+  bottom: 2.4rem;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  transform: translate(-50%, 1.6rem);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.45);
+}
+
+.sticky-shop-cta--visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-shop-cta {
+    transition: opacity 0.01ms;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .header--middle-left {
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
+
+/* ---------- Header overlay (homepage only) ----------
+   The source design overlays a transparent header on top of the full-bleed
+   hero photo instead of a solid bar above it. Force the header's text/icon
+   color (which Dawn derives entirely from --color-foreground) to cream, and
+   lift it out of the document flow so the hero can run flush to the top. */
+@media screen and (min-width: 990px) {
+  .template-index .header-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    background: transparent !important;
+    --color-foreground: 251, 246, 236;
+  }
+
+  .template-index .header-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, #0000008f, #00000000);
+    pointer-events: none;
+    z-index: -1;
+  }
+
+}
+
+/* When the sticky-header script pins the header (scrolling up), drop the
+   transparent hero-overlay treatment above and show a solid themed bar
+   with dark text instead — the overlay only makes sense on top of the hero. */
+.template-index .section-header.shopify-section-header-sticky .header-wrapper {
+  background: rgb(251, 246, 236) !important;
+  --color-foreground: 59, 33, 22;
+}
+
+.template-index .section-header.shopify-section-header-sticky .header-wrapper::before {
+  display: none;
+}
+
+/* Dawn's built-in hide/reveal drives .section-header's sticky "top" offset
+   using --header-height, measured from .section-header's own flow height.
+   Since .header-wrapper is pulled out of flow (position: absolute) for the
+   overlay effect above, .section-header collapses to ~0 height, so that
+   offset is meaningless and nothing visibly moves. Drive the hide/reveal
+   with a transform on .header-wrapper itself instead. */
+@media screen and (min-width: 990px) {
+  .template-index .header-wrapper {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+  }
+
+  .template-index .header-wrapper,
+  .template-index .header-wrapper * {
+    transition: color 0.25s ease;
+  }
+
+  .template-index .section-header.shopify-section-header-hidden .header-wrapper {
+    transform: translateY(-100%);
+  }
+}
+
+/* ---------- Header brand wordmark ---------- */
+.brand-header-logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.brand-header-logo__script {
+  font-size: 2.4rem;
+}
+
+.brand-header-logo__accent {
+  font-family: var(--font-heading-family);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.brand-header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.8rem;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  margin-left: 20px;
+  box-shadow: none;
+}
+
+/* Dawn draws the button drop-shadow via a ::before pseudo-element (its own
+   box-shadow, independent of the button's), not via the button's own
+   box-shadow property — so the rule above alone doesn't remove it. */
+.brand-header-cta::before {
+  content: none;
+}
+
+@media screen and (max-width: 479px) {
+  .brand-header-logo__script {
+    font-size: 2.1rem;
+  }
+
+  .brand-header-logo__accent {
+    display: none;
+  }
+}
+
+/* ---------- Hero ---------- */
+.brand-hero-full {
+  padding-top: 0;
+}
+
+.brand-hero-full__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media screen and (min-width: 990px) {
+  .brand-hero-full__grid {
+    grid-template-columns: 1fr 1fr;
+    min-height: 64rem;
+  }
+  .brand-hero-full__grid--image-first {
+    direction: rtl;
+  }
+  .brand-hero-full__grid--image-first > * {
+    direction: ltr;
+  }
+}
+
+.brand-hero-full__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2.4rem 4rem;
+}
+
+@media screen and (min-width: 990px) {
+  .brand-hero-full__text {
+    padding: 10rem 4rem 4rem 6rem;
+  }
+}
+
+.brand-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-script-family, cursive);
+  font-size: 2.75rem;
+  color: #cc6946;
+  margin: 0 0 0.5rem;
+}
+
+.brand-hero__heading {
+  margin: 0 0 1.6rem;
+  line-height: 1.08;
+}
+
+.brand-hero__heading-line--accent {
+  color: #cc6946;
+  font-family: var(--font-script-family, cursive);
+  font-weight: 600;
+}
+
+.brand-hero__subheading {
+  font-size: 1.8rem;
+  line-height: 1.55;
+  max-width: 46rem;
+  opacity: 0.85;
+  margin: 0 0 2.8rem;
+}
+
+.brand-hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.brand-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.brand-hero__support {
+  font-size: 1.4rem;
+  opacity: 0.75;
+}
+
+/* ---------- Hero email signup ---------- */
+.brand-hero__signup {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(59, 33, 22, 0.12);
+  max-width: 42rem;
+}
+
+.brand-hero__signup-label {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 1rem;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06rem;
+  text-transform: uppercase;
+  color: #cc6946;
+}
+
+.brand-hero__signup-label .icon-brand {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.brand-hero__signup-label--artwork {
+  gap: 1rem;
+  font-size: 2.7rem;
+  line-height: 1.1;
+}
+
+.brand-hero__signup-artwork {
+  flex: 0 0 auto;
+  width: 4.2rem;
+  height: auto;
+}
+
+.brand-hero__signup-field {
+  display: flex;
+  align-items: center;
+  max-width: 490px;
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+.brand-hero__signup-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  min-height: 5rem;
+  padding: 0 1.8rem;
+  border: 1px solid rgba(59, 33, 22, 0.2);
+  border-radius: 999px;
+  background-color: #fbf6ec;
+  color: #3b2116;
+  font-family: var(--font-body-family);
+  font-size: 1.5rem;
+}
+
+.brand-hero__signup-input::placeholder {
+  color: rgba(59, 33, 22, 0.5);
+}
+
+.brand-hero__signup-button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.brand-hero__signup-message {
+  display: block;
+  margin-top: 0.8rem;
+  font-size: 1.3rem;
+}
+
+.brand-hero__signup-message--success {
+  color: #cc6946;
+  font-weight: 600;
+}
+
+.brand-hero__signup-microcopy {
+  margin: 0.8rem 0 0;
+  font-size: 1.2rem;
+  opacity: 0.65;
+}
+
+/* ---------- Centered signup CTA (About page closing section) ---------- */
+.brand-signup-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.brand-signup-cta .brand-hero__signup {
+  max-width: 46rem;
+}
+
+.brand-signup-cta .brand-hero__signup-field {
+  gap: 0.5rem;
+}
+
+.brand-signup-cta h2 {
+  margin: 0 0 2rem;
+  max-width: 48rem;
+}
+
+@media screen and (min-width: 700px) {
+  .brand-signup-cta h2 {
+    white-space: nowrap;
+  }
+}
+
+.brand-signup-cta .brand-hero__signup {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  max-width: 100%;
+  width: 100%;
+}
+
+.brand-signup-cta .brand-hero__signup-label {
+  justify-content: center;
+  color: #fbf6ec;
+}
+
+.brand-signup-cta .brand-hero__signup-microcopy {
+  text-align: center;
+}
+
+.brand-hero-full__media {
+  position: relative;
+  min-height: 36rem;
+  overflow: hidden;
+}
+
+.brand-hero-full__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media screen and (min-width: 990px) {
+  .brand-hero-full__media img {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+.brand-hero-full__rating-card {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  max-width: 26rem;
+  background: #fbf6ec;
+  border-radius: 1.2rem;
+  padding: 1.4rem 1.8rem 0;
+  box-shadow: none;
+  transform: rotate(-3deg);
+}
+
+.brand-hero-full__rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #ebaa2d;
+  margin-bottom: 0.4rem;
+}
+
+.brand-hero-full__rating-stars .icon-brand {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.brand-hero-full__rating-stars span {
+  font-family: var(--font-body-family);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #3b2116;
+  margin-left: 0.3rem;
+}
+
+.brand-hero-full__rating-quote {
+  margin: 0;
+  font-family: var(--font-script-family, cursive);
+  font-size: 2rem;
+  color: #cc6946;
+}
+
+/* ---------- Trust badges ----------
+   A single plain row of small icon + label pairs — no circular icon chips. */
+.brand-badges__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 1.6rem;
+  justify-items: center;
+}
+
+@media screen and (min-width: 750px) {
+  .brand-badges__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #cc6946;
+}
+
+.brand-badge__label {
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: #3b2116;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 749px) {
+  /* The 2-column mobile grid is too narrow for longer labels (e.g. "Proudly
+     Fort Worth, TX") to fit on one line — nowrap would force the row wider
+     than its grid track and overflow the page horizontally. */
+  .brand-badge__label {
+    white-space: normal;
+    line-height: 1.25;
+  }
+}
+
+/* ---------- Difference / feature cards ---------- */
+.brand-difference__intro {
+  max-width: 68rem;
+  margin: 0 auto 4.4rem;
+  text-align: center;
+}
+
+.brand-difference__intro h2 {
+  margin: 0 0 1.6rem;
+}
+
+.brand-difference__intro p {
+  font-size: 1.75rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.brand-difference__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .brand-difference__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .brand-difference__grid--5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.brand-feature-card {
+  text-align: center;
+}
+
+.brand-feature-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 50%;
+  background: rgba(var(--color-button), 0.12);
+  color: rgb(var(--color-button));
+  margin-bottom: 1.6rem;
+}
+
+.brand-feature-card__title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.brand-feature-card__subtitle {
+  font-size: 1.3rem;
+  opacity: 0.7;
+  margin: 0.4rem 0 0;
+  line-height: 1.4;
+}
+
+/* ---------- Product showcase ---------- */
+.brand-products {
+  position: relative;
+}
+
+.brand-products--texture {
+  /* background-image url is set inline per-section in product-showcase.liquid,
+     since this file is a plain static asset (no Liquid processing here). */
+  background-size: cover;
+  background-position: center;
+}
+
+.brand-products__header {
+  max-width: 62rem;
+  margin: 0 auto 4rem;
+  text-align: center;
+  position: relative;
+}
+
+.brand-products__header h2 {
+  margin: 0 0 1.2rem;
+}
+
+.brand-products__header p {
+  font-size: 1.7rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.brand-products__header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+.brand-products__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media screen and (min-width: 600px) {
+  .brand-products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .brand-products__grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.brand-product-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: calc(var(--product-card-corner-radius, 1.6rem) + 0.4rem);
+  overflow: hidden;
+  box-shadow: 0 24px 48px -26px rgba(var(--color-shadow), 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-product-card:hover {
+  transform: translateY(-0.4rem);
+  box-shadow: 0 30px 55px -22px rgba(var(--color-shadow), 0.36);
+}
+
+.brand-product-card__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.brand-product-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-product-card__tag {
+  position: absolute;
+  top: 1.6rem;
+  left: 1.6rem;
+  background: #ffffff;
+  color: #603813;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  padding: 0.6rem 1.4rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 2px rgba(96, 56, 19, 0.12);
+  z-index: 1;
+}
+
+.brand-product-card__tag--blush {
+  background: #f0d3b4;
+}
+
+.brand-product-card__tag--sage {
+  background: color-mix(in oklab, oklch(100% .085 145) 70%, transparent);
+}
+
+.brand-product-card__tag--honey {
+  background: color-mix(in oklab, #eaa64a 50%, transparent);
+}
+
+.brand-product-card__tag--terracotta {
+  color: #faf3e8;
+  background: #e37a25;
+  border: 0.2rem solid #faf3e8;
+  box-shadow: 0 0.4rem 0.6rem -0.1rem rgba(96, 56, 19, 0.2);
+}
+
+.brand-product-card__body {
+  padding: 2rem 2rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  flex: 1;
+}
+
+.brand-product-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem 1rem;
+  margin-top: auto;
+}
+
+.brand-product-card__title {
+  font-size: 1.9rem;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.brand-product-card__price {
+  font-family: var(--font-heading-family);
+  font-weight: 500;
+  font-size: 1.8rem;
+  color: #cc6946;
+  white-space: nowrap;
+}
+
+.brand-product-card__desc {
+  font-size: 1.4rem;
+  line-height: 1.55;
+  opacity: 0.8;
+  margin: 0;
+  flex: 1;
+}
+
+.brand-product-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ---------- Testimonials / social proof ---------- */
+.brand-testimonials__header {
+  text-align: center;
+  max-width: 56rem;
+  margin: 0 auto 4rem;
+}
+
+.brand-testimonials__rating-stars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  color: #ebaa2d;
+  margin-bottom: 0.8rem;
+}
+
+.brand-testimonials__rating-text {
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 0 0 1.6rem;
+  opacity: 0.85;
+}
+
+.brand-testimonials__header h2 {
+  margin: 0;
+}
+
+.brand-testimonials__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.4rem;
+}
+
+@media screen and (min-width: 750px) {
+  .brand-testimonials__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.brand-testimonial-card {
+  background: #ffffff;
+  border: 1px solid rgba(59, 33, 22, 0.2);
+  border-radius: calc(var(--text-boxes-radius, 1.6rem) + 0.2rem);
+  padding: 2.8rem 2.4rem;
+  box-shadow: 0 20px 40px -24px rgba(var(--color-shadow), 0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.brand-testimonial-card__stars {
+  display: flex;
+  gap: 0.3rem;
+  color: #ebaa2d;
+}
+
+.brand-testimonial-card__stars .icon-brand {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.brand-testimonial-card__quote {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  margin: 0;
+  flex: 1;
+}
+
+.brand-testimonial-card__author {
+  font-size: 1.4rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.brand-testimonial-card__location {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+/* ---------- Newsletter contrast fix ----------
+   Dawn ties .field__input's background/text directly to the section's own
+   --color-background / --color-foreground. That works on light schemes, but
+   on the newsletter section's terracotta scheme it makes the email input
+   nearly invisible (terracotta-on-terracotta). Pin it to fixed brand colors
+   instead so it always reads as a light, tappable field. */
+.newsletter .field__input {
+  background-color: #fbf6ec;
+  color: #3b2116;
+}
+
+.newsletter .field__label {
+  color: rgba(59, 33, 22, 0.65);
+}
+
+.newsletter .field__button {
+  color: #cc6946;
+}
+
+.newsletter .field__button:hover {
+  color: #ab4321;
+}
+
+/* ---------- Cart: mix-ins shown as part of their granola bundle ---------- */
+.brand-cart-bundle {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0.8rem 0 0;
+  padding: 0.6rem 0 0 1rem;
+  border-left: 2px solid rgba(204, 105, 70, 0.35);
+}
+
+.brand-cart-bundle__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.8rem;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+.brand-cart-bundle__price {
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.brand-cart-bundle__plan {
+  flex-basis: 100%;
+  color: rgba(var(--color-foreground), 0.55);
+  font-size: 1.2rem;
+}
+
+/* ---------- Section width / spacing helpers ---------- */
+.brand-section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+.nutri-image-box {
+    position: relative;
+    display: block;
+    margin-top: 5rem;
+    padding: 5rem;
+    border-radius: 25px;
+    background: #f6e9dd;
+    box-shadow: 0 0 0 .4rem #f6e9dd, 2px 2px 0.4rem .4rem #3b21162e;
+}
+
+img.nutri-image {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+
+@media screen and (max-width: 749px) {
+  .brand-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  .nutri-image-box{
+    padding: 2rem;
+  }
+}
+
+

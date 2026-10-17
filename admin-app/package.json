@@ -1,0 +1,20 @@
+{
+  "name": "crunchy-girl-admin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Private product and Seal subscription management tooling for Crunchy Girl Granola.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/cli.mjs",
+    "configure": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/configure-secrets.ps1",
+    "shopify:auth": "node src/shopify-auth.mjs",
+    "doctor": "node src/cli.mjs doctor",
+    "doctor:live": "node src/cli.mjs doctor --live",
+    "products": "node src/cli.mjs shopify products list",
+    "subscriptions": "node src/cli.mjs seal subscriptions list",
+    "check": "node --check src/config.mjs && node --check src/shopify-auth.mjs && node --check src/shopify.mjs && node --check src/seal.mjs && node --check src/cli.mjs"
+  }
+}

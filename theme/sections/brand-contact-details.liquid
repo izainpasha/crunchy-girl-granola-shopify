@@ -1,0 +1,155 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width section-{{ section.id }}-padding">
+    <div class="brand-contact-details__grid">
+      {%- for block in section.blocks -%}
+        <div class="brand-contact-details__card" {{ block.shopify_attributes }}>
+          <span class="brand-contact-details__icon">
+            {%- render 'icon-brand', name: block.settings.icon, size: 22 -%}
+          </span>
+          <h3 class="brand-contact-details__heading">{{ block.settings.heading | escape }}</h3>
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="brand-contact-details__primary">{{ block.settings.primary | escape }}</a>
+          {%- else -%}
+            <p class="brand-contact-details__primary">{{ block.settings.primary | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.secondary != blank -%}
+            <p class="brand-contact-details__secondary">{{ block.settings.secondary | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Contact details",
+  "class": "section",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Detail card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "mail", "label": "Mail" },
+            { "value": "map-pin", "label": "Map pin" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "phone", "label": "Phone" }
+          ],
+          "default": "mail"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Write to us"
+        },
+        {
+          "type": "text",
+          "id": "primary",
+          "label": "Primary line",
+          "default": "gina@crunchygirlgranola.com"
+        },
+        {
+          "type": "text",
+          "id": "secondary",
+          "label": "Secondary line",
+          "default": "We reply within 2 business days"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact details",
+      "blocks": [
+        {
+          "type": "detail",
+          "settings": {
+            "icon": "mail",
+            "heading": "Write to us",
+            "primary": "gina@crunchygirlgranola.com",
+            "secondary": "We reply within 2 business days",
+            "link": "mailto:gina@crunchygirlgranola.com"
+          }
+        },
+        {
+          "type": "detail",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "The shop",
+            "primary": "3520 Bluebonnet Circle",
+            "secondary": "Fort Worth, TX",
+            "link": "https://www.google.com/maps/search/?api=1&query=3520+Bluebonnet+Circle+Fort+Worth+TX"
+          }
+        },
+        {
+          "type": "detail",
+          "settings": {
+            "icon": "clock",
+            "heading": "Hours",
+            "primary": "Tues - Sat",
+            "secondary": "10am - 3pm"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
